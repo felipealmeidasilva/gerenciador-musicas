@@ -1,0 +1,8 @@
+Artista;jose;24;12345678901;Brasil;1234
+Nome Artístico:big C
+Nome do Empresário:Ulisses
+Ouvinte;Felipe;26;12345678902;Coreia;2020
+Nome de Exibição:Marcelo
+Artista;felipe;20;13655357460;Brasileiro;123
+Nome Artístico:Lipe
+Nome do Empresário:Maria
