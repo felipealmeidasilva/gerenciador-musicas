@@ -3,7 +3,7 @@ package com.ufal.arapiraca.gerenciadormusicas;
 import java.util.ArrayList;
 
 // Classe específica para o produtor
-class Produtor extends Usuario {
+class Produtor extends Pessoa {
     private String nomeProfissional; // Nome profissional do podcast
 
     // Construtor

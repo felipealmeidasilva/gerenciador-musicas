@@ -1,15 +1,15 @@
 package com.ufal.arapiraca.gerenciadormusicas;
 
-// Classe base para todas as pessoas (usuário, artista, produtor, ouvinte)
-class Usuario {
+
+class Pessoa {
     private String nome;
     private int idade;
     private String cpf;
     private String nacionalidade;
     private String senha;
 
-    // Construtor
-    public Usuario(String nome, int idade, String cpf, String nacionalidade, String senha) {
+
+    public Pessoa(String nome, int idade, String cpf, String nacionalidade, String senha) {
         this.nome = nome;
         this.idade = idade;
         this.cpf = cpf;

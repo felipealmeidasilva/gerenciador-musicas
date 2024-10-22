@@ -3,17 +3,15 @@ package com.ufal.arapiraca.gerenciadormusicas;
 import java.util.ArrayList;
 import java.util.List;
 
-
-class Playlist {
+public class Album {
     private String nome;
-    private final List<Musica> musicas;
+    private List<Musica> musicas;
 
 
-    public Playlist(String nome) {
+    protected Album(String nome) {
         this.nome = nome;
         this.musicas = new ArrayList<>();
     }
-
 
     public String getNome() {
         return nome;
@@ -27,13 +25,19 @@ class Playlist {
         return musicas;
     }
 
-    // Método para adicionar música à playlist
     public void adicionarMusica(Musica musica) {
         musicas.add(musica);
     }
 
-    // Método para remover música da playlist
     public void removerMusica(Musica musica) {
         musicas.remove(musica);
+    }
+
+    public int getDuracaoTotal() {
+        int duracaoTotal = 0;
+        for (Musica musica : musicas) {
+            duracaoTotal += musica.getDuracao();
+        }
+        return duracaoTotal;
     }
 }

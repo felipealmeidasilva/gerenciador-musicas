@@ -15,17 +15,16 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         
-        // Carrega os dados dos arquivos de log
-        List<Usuario> usuarios = carregarUsuarios();
+
+        List<Pessoa> pessoas = carregarUsuarios();
         List<Musica> musicas = carregarMusicas();
         List<Podcast> podcasts = carregarPodcasts();
         List<Playlist> playlists = carregarPlaylists();
 
-        System.out.println(usuarios);
-        
-        // Loop principal do programa
+        System.out.println(pessoas);
+
         while (true) {
-            // Exibe menu de opções para o usuário
+
             System.out.println("------------- MENU -------------");
             System.out.println("1. Cadastrar");
             System.out.println("2. Login");
@@ -39,16 +38,16 @@ public class Main {
             switch (opcao) {
                 case 1 -> {
                     // Cadastro de usuário
-                    cadastrarUsuario(usuarios, scanner, null);
-                    salvarUsuarios(usuarios);
+                    cadastrarUsuario(pessoas, scanner, null);
+                    salvarUsuarios(pessoas);
                 }
                 case 2 -> // Login de usuário
-                    fazerLogin(usuarios, scanner);
+                    fazerLogin(pessoas, scanner);
                 case 3 -> {
                     // Sair do programa
                     System.out.println("Saindo do programa...");
                     scanner.close();
-                    salvarUsuarios(usuarios);
+                    salvarUsuarios(pessoas);
                     salvarMusicas(musicas);
                     salvarPodcasts(podcasts);
                     salvarPlaylists(playlists);
@@ -62,7 +61,7 @@ public class Main {
 
     
     //MétodocadastrarUsuario
-    private static void cadastrarUsuario(List<Usuario> usuarios, Scanner scanner, Usuario usuario) {
+    private static void cadastrarUsuario(List<Pessoa> pessoas, Scanner scanner, Pessoa pessoa) {
         System.out.println("------------- CADASTRO -------------");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
@@ -90,7 +89,7 @@ public class Main {
         int tipoUsuario = scanner.nextInt();
         scanner.nextLine(); // Ler a quebra de linha
 
-        Usuario novoUsuario = null;
+        Pessoa novoPessoa = null;
 
         switch (tipoUsuario) {
             case 1 -> {
@@ -101,27 +100,27 @@ public class Main {
                 System.out.print("Nome do Empresário: ");
                 String nomeEmpresario = scanner.nextLine();
 
-                novoUsuario = new Artista(nome, idade, cpf, nacionalidade, senha, nomeArtistico, nomeEmpresario);
+                novoPessoa = new Artista(nome, idade, cpf, nacionalidade, senha, nomeArtistico, nomeEmpresario);
             }
             case 2 -> {
                 // Cadastrar um produtor
                 System.out.print("Nome Profissional: ");
                 String nomeProfissional = scanner.nextLine();
 
-                usuario = new Produtor(nome, idade, cpf, nacionalidade, senha, nomeProfissional);
+                pessoa = new Produtor(nome, idade, cpf, nacionalidade, senha, nomeProfissional);
             }
             case 3 -> {
                 // Cadastrar um ouvinte
                 System.out.print("Nome de Exibição: ");
                 String nomeExibicao = scanner.nextLine();
 
-                usuario = new Ouvinte(nome, idade, cpf, nacionalidade, senha, nomeExibicao);
+                pessoa = new Ouvinte(nome, idade, cpf, nacionalidade, senha, nomeExibicao);
             }
             default -> System.out.println("Opção inválida!");
         }
 
-        if (novoUsuario != null) {
-            usuarios.add(novoUsuario);
+        if (novoPessoa != null) {
+            pessoas.add(novoPessoa);
             System.out.println("Usuário cadastrado com sucesso!");
             return;
         }
@@ -129,8 +128,8 @@ public class Main {
         throw new UnsupportedOperationException("Não temos essa implementação ainda.");
     }
 
-    // Método fazerLogin
-    private static void fazerLogin(List<Usuario> usuarios, Scanner scanner) {
+
+    private static void fazerLogin(List<Pessoa> pessoas, Scanner scanner) {
         System.out.println("------------- LOGIN -------------");
         System.out.print("CPF: ");
         String cpf = scanner.nextLine();
@@ -138,16 +137,16 @@ public class Main {
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
 
-        // esse valor boleano será utilizado para direcionar ao sistema
+
         boolean usuarioEncontrado = false;
-        for (Usuario usuario : usuarios) {
-            if (usuario.getCpf().equals(cpf) && usuario.getSenha().equals(senha)) {
+        for (Pessoa pessoa : pessoas) {
+            if (pessoa.getCpf().equals(cpf) && pessoa.getSenha().equals(senha)) {
                 usuarioEncontrado = true;
                 System.out.println("Login realizado com sucesso!");
 
                 // Aqui você pode direcionar o usuário para a tela principal do sistema,
                 // de acordo com o seu tipo (artista, produtor ou ouvinte).
-                System.out.println("Bem-vindo, " + usuario.getNome() + "!");
+                System.out.println("Bem-vindo, " + pessoa.getNome() + "!");
                 // ...
                 break;
             }
@@ -158,21 +157,21 @@ public class Main {
             }
         }
 
-    // Método para salvar os usuários em um arquivo
-    private static void salvarUsuarios(List<Usuario> usuarios) {
-        try (PrintWriter writer = new PrintWriter(ARQUIVO_USUARIOS)) {
-            for (Usuario usuario : usuarios) {
-                // Salva as informações do usuário no arquivo
-                writer.println(usuario.getClass().getSimpleName() + ";" + usuario.getNome() + ";" + usuario.getIdade() + ";" + usuario.getCpf() + ";" + usuario.getNacionalidade() + ";" + usuario.getSenha());
 
-                // Salva as informações adicionais de acordo com o tipo de usuário
-                if (usuario instanceof Artista) {
-                    Artista artista = (Artista) usuario;
+    private static void salvarUsuarios(List<Pessoa> pessoas) {
+        try (PrintWriter writer = new PrintWriter(ARQUIVO_USUARIOS)) {
+            for (Pessoa pessoa : pessoas) {
+
+                writer.println(pessoa.getClass().getSimpleName() + ";" + pessoa.getNome() + ";" + pessoa.getIdade() + ";" + pessoa.getCpf() + ";" + pessoa.getNacionalidade() + ";" + pessoa.getSenha());
+
+
+                if (pessoa instanceof Artista) {
+                    Artista artista = (Artista) pessoa;
                     writer.println("Nome Artístico:" + artista.getNomeArtistico());
                     writer.println("Nome do Empresário:" + artista.getNomeEmpresario());
-                } else if (usuario instanceof Produtor produtor) {
+                } else if (pessoa instanceof Produtor produtor) {
                     writer.println("Nome Profissional:" + produtor.getNomeProfissional());
-                } else if (usuario instanceof Ouvinte ouvinte) {
+                } else if (pessoa instanceof Ouvinte ouvinte) {
                     writer.println("Nome de Exibição:" + ouvinte.getNomeExibicao());
                 }
             }
@@ -181,9 +180,9 @@ public class Main {
         }
     }
 
-    // Método para carregar os usuários do arquivo
-    private static List<Usuario> carregarUsuarios() {
-        List<Usuario> usuarios = new ArrayList<>();
+
+    private static List<Pessoa> carregarUsuarios() {
+        List<Pessoa> pessoas = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_USUARIOS))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
@@ -196,62 +195,174 @@ public class Main {
                     String nacionalidade = partes[4];
                     String senha = partes[5];
 
-                    Usuario usuario = null;
+                    Pessoa pessoa = null;
 
                     switch (tipo) {
                         case "Artista" -> {
                             String nomeArtistico = reader.readLine().split(":")[1];
                             String nomeEmpresario = reader.readLine().split(":")[1];
-                            usuario = new Artista(nome, idade, cpf, nacionalidade, senha, nomeArtistico, nomeEmpresario);
+                            pessoa = new Artista(nome, idade, cpf, nacionalidade, senha, nomeArtistico, nomeEmpresario);
                         }
                         case "Produtor" -> {
                             String nomeProfissional = reader.readLine().split(":")[1];
-                            usuario = new Produtor(nome, idade, cpf, nacionalidade, senha, nomeProfissional);
+                            pessoa = new Produtor(nome, idade, cpf, nacionalidade, senha, nomeProfissional);
                         }
                         case "Ouvinte" -> {
                             String nomeExibicao = reader.readLine().split(":")[1];
-                            usuario = new Ouvinte(nome, idade, cpf, nacionalidade, senha, nomeExibicao);
+                            pessoa = new Ouvinte(nome, idade, cpf, nacionalidade, senha, nomeExibicao);
                         }
                     }
 
-                    if (usuario != null) {
-                        usuarios.add(usuario);
+                    if (pessoa != null) {
+                        pessoas.add(pessoa);
                     }
                 }
             }
         } catch (IOException e) {
             System.err.println("Erro ao carregar os usuários: " + e.getMessage());
         }
-        return usuarios;
+        return pessoas;
     }
  
-    // Métodos para salvar e carregar músicas, podcasts e playlists
+
     private static void salvarMusicas(List<Musica> musicas) {
-        // ...
+        try (PrintWriter writer = new PrintWriter(ARQUIVO_MUSICAS)) {
+            for (Musica musica : musicas) {
+                writer.println(musica.getTitulo() + ";" + musica.getArtista() + ";" + musica.getAlbum() + ";" +
+                        musica.getGenero() + ";" + musica.getDuracao() + ";" + musica.getDataLancamento() + ";" +
+                        musica.getFaixaEtariaMinima() + ";" + musica.getCompositor() + ";" + musica.isPermissaoCopyright());
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Erro ao salvar as músicas: " + e.getMessage());
+        }
     }
+
 
     private static List<Musica> carregarMusicas() {
-        return null;
-        // ...
+        List<Musica> musicas = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_MUSICAS))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(";");
+                if (partes.length == 9) {
+                    String titulo = partes[0];
+                    String artista = partes[1];
+                    String album = partes[2];
+                    GeneroMusical genero = GeneroMusical.valueOf(partes[3]);
+                    int duracao = Integer.parseInt(partes[4]);
+                    String dataLancamento = partes[5];
+                    int faixaEtariaMinima = Integer.parseInt(partes[6]);
+                    String compositor = partes[7];
+                    boolean permissaoCopyright = Boolean.parseBoolean(partes[8]);
+
+                    Musica musica = new Musica(titulo, artista, album, genero, duracao, dataLancamento, faixaEtariaMinima, compositor, permissaoCopyright);
+                    musicas.add(musica);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar as músicas: " + e.getMessage());
+        }
+        return musicas;
     }
+
 
     private static void salvarPodcasts(List<Podcast> podcasts) {
-        // ...
+        try (PrintWriter writer = new PrintWriter(ARQUIVO_PODCASTS)) {
+            for (Podcast podcast : podcasts) {
+                writer.println(podcast.getNomePodcast() + ";" + podcast.getProdutor() + ";" + podcast.getGenero() + ";" + podcast.getDuracao() + ";" + podcast.getDataLancamento());
+
+
+                writer.println("Participantes:" + String.join(",", podcast.getParticipantes()));
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Erro ao salvar os podcasts: " + e.getMessage());
+        }
     }
+
 
     private static List<Podcast> carregarPodcasts() {
-        // ...
-        return null;
-        // ...
+        List<Podcast> podcasts = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_PODCASTS))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(";");
+                if (partes.length > 0) {
+                    String nomePodcast = partes[0];
+                    String produtor = partes[1];
+                    GeneroPodcast genero = GeneroPodcast.valueOf(partes[2]);
+                    int duracao = Integer.parseInt(partes[3]);
+                    String dataLancamento = partes[4];
+
+                    // Lê os participantes
+                    String[] participantesLinha = reader.readLine().split(":")[1].split(",");
+                    ArrayList<String> participantes = new ArrayList<>(List.of(participantesLinha));
+
+                    Podcast podcast = new Podcast(nomePodcast, produtor, genero, duracao, dataLancamento, participantes);
+                    podcasts.add(podcast);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar os podcasts: " + e.getMessage());
+        }
+        return podcasts;
     }
+
 
     private static void salvarPlaylists(List<Playlist> playlists) {
-        // ...
+        try (PrintWriter writer = new PrintWriter(ARQUIVO_PLAYLISTS)) {
+            for (Playlist playlist : playlists) {
+                writer.println(playlist.getNome());
+
+
+                List<Musica> musicas = playlist.getMusicas();
+                for (Musica musica : musicas) {
+                    writer.println(musica.getTitulo() + ";" + musica.getArtista() + ";" + musica.getDuracao());
+                }
+
+
+                writer.println("FIM_PLAYLIST");
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Erro ao salvar as playlists: " + e.getMessage());
+        }
     }
 
+
     private static List<Playlist> carregarPlaylists() {
-        return null;
-        // ...
+        List<Playlist> playlists = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_PLAYLISTS))) {
+            String linha;
+            Playlist playlistAtual = null;
+
+            while ((linha = reader.readLine()) != null) {
+                if (!linha.equals("FIM_PLAYLIST")) {
+                    if (playlistAtual == null) {
+
+                        playlistAtual = new Playlist(linha);
+                    } else {
+
+                        String[] partes = linha.split(";");
+                        if (partes.length == 3) {
+                            String titulo = partes[0];
+                            String artista = partes[1];
+                            int duracao = Integer.parseInt(partes[2]);
+
+                            Musica musica = new Musica(titulo, artista, duracao);
+                            playlistAtual.adicionarMusica(musica);
+                        }
+                    }
+                } else {
+
+                    if (playlistAtual != null) {
+                        playlists.add(playlistAtual);
+                        playlistAtual = null;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar as playlists: " + e.getMessage());
+        }
+        return playlists;
     }
 
 

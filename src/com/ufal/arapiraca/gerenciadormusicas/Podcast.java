@@ -6,13 +6,13 @@ import java.util.ArrayList;
 class Podcast {
     private String nomePodcast;
     private String produtor;
-    private String genero;
+    private GeneroPodcast genero;
     private int duracao; // Em segundos
     private String dataLancamento;
     private ArrayList<String> participantes;
 
     // Construtor
-    public Podcast(String nomePodcast, String produtor, String genero, int duracao, String dataLancamento, ArrayList<String> participantes) {
+    public Podcast(String nomePodcast, String produtor, GeneroPodcast genero, int duracao, String dataLancamento, ArrayList<String> participantes) {
         this.nomePodcast = nomePodcast;
         this.produtor = produtor;
         this.genero = genero;
@@ -38,11 +38,11 @@ class Podcast {
         this.produtor = produtor;
     }
 
-    public String getGenero() {
+    public GeneroPodcast getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(GeneroPodcast genero) {
         this.genero = genero;
     }
 

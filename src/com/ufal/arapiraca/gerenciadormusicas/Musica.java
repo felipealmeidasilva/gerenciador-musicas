@@ -1,19 +1,19 @@
 package com.ufal.arapiraca.gerenciadormusicas;
 
-// Classe para a música
+
 class Musica {
     private String titulo;
     private String artista;
     private String album;
-    private String genero;
+    private GeneroMusical genero;
     private int duracao; // Em segundos
     private String dataLancamento;
     private int faixaEtariaMinima;
     private String compositor;
     private boolean permissaoCopyright;
 
-    // Construtor
-    public Musica(String titulo, String artista, String album, String genero, int duracao, String dataLancamento, int faixaEtariaMinima, String compositor, boolean permissaoCopyright) {
+
+    public Musica(String titulo, String artista, String album, GeneroMusical genero, int duracao, String dataLancamento, int faixaEtariaMinima, String compositor, boolean permissaoCopyright) {
         this.titulo = titulo;
         this.artista = artista;
         this.album = album;
@@ -25,7 +25,15 @@ class Musica {
         this.permissaoCopyright = permissaoCopyright;
     }
 
-    // Getters e Setters
+    public Musica(String titulo, String artista, int duracao) {
+    }
+
+    public Album criarAlbum(String nomeAlbum) {
+        Album album = new Album(nomeAlbum);
+        album.adicionarMusica(this); // Adiciona a própria música ao álbum
+        return album;
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -50,11 +58,11 @@ class Musica {
         this.album = album;
     }
 
-    public String getGenero() {
+    public GeneroMusical getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(GeneroMusical genero) {
         this.genero = genero;
     }
 
