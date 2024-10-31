@@ -1,0 +1,3 @@
+my name;felipe;none;SERTANEJO;200;null;18;Felipe;true
+Maria;felipe;ela;ROCK;203;null;15;Felipe;true
+believe;felipe;team;POP;213;null;13;Jos�;true
