@@ -51,9 +51,12 @@ public class Main {
                                 System.out.println("2. Ouvir podcast");
                                 System.out.println("3. Visualizar histórico");
                                 System.out.println("4. Criar playlist");
-                                System.out.println("5. Adicionar música a uma playlist");
-                                System.out.println("6. Adicionar podcast a uma playlist");
-                                System.out.println("7. Sair");
+                                System.out.println("5. Ouvir uma playlist");
+                                System.out.println("6. Adicionar música a uma playlist");
+                                System.out.println("7. Adicionar podcast a uma playlist");
+                                System.out.println("8. Adicionar audio aos favoritos");
+                                System.out.println("9. Visualizar favoritos");
+                                System.out.println("10. Sair");
                                 System.out.print("Escolha uma opção: ");
                                 
                                 int entrada = scanner.nextInt();
@@ -64,9 +67,12 @@ public class Main {
                                     case 2 -> ouvinte.ouvirPodcast(podcasts, scanner);
                                     case 3 -> ouvinte.visualizarHistorico();
                                     case 4 -> ouvinte.criarPlaylist(playlists, scanner);
-                                    case 5 -> ouvinte.adicionarMusicaPlaylist(playlists, musicas, scanner);
-                                    case 6 -> ouvinte.adicionarPodcastPlaylist(playlists, podcasts, scanner);
-                                    case 7 -> executando = false;
+                                    case 5 -> ouvinte.ouvirPlaylist(playlists, scanner);
+                                    case 6 -> ouvinte.adicionarMusicaPlaylist(playlists, musicas, scanner);
+                                    case 7 -> ouvinte.adicionarPodcastPlaylist(playlists, podcasts, scanner);
+                                    case 8 -> ouvinte.adicionarAFavoritos(musicas, podcasts, scanner);
+                                    case 9 -> ouvinte.visualizarFavoritos();
+                                    case 10 -> executando = false;
                                     default -> System.out.println("Opção inválida! Tente novamente.");
                                 }
                             }
