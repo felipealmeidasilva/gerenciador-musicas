@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.ufal.arapiraca.gerenciadormusicas.janela.GerenciadorMusicasGUI;
+
 public class Main {
     private static final String ARQUIVO_USUARIOS = "src/com/ufal/arapiraca/gerenciadormusicas/saves/usuarios.txt";
     private static final String ARQUIVO_MUSICAS = "src/com/ufal/arapiraca/gerenciadormusicas/saves/musicas.txt";
@@ -13,79 +15,21 @@ public class Main {
     private static final String ARQUIVO_HISTORICO = "src/com/ufal/arapiraca/gerenciadormusicas/saves/historico.txt";
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
+        
         List<Pessoa> pessoas = carregarUsuarios();
         List<Musica> musicas = carregarMusicas();
         List<Podcast> podcasts = carregarPodcasts();
         List<Playlist> playlists = carregarPlaylists();
 
-        while (true) {
-            System.out.println("------------- MENU -------------");
-            System.out.println("1. Cadastrar");
-            System.out.println("2. Login");
-            System.out.println("3. Sair");
-            System.out.print("Digite a opção desejada: ");
+        GerenciadorMusicasGUI gui = new GerenciadorMusicasGUI(pessoas, musicas, podcasts, playlists);
+        gui.iniciar();
 
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
+        salvarUsuarios(pessoas);
+        salvarMusicas(musicas);
+        salvarPodcasts(podcasts);
+        salvarPlaylists(playlists);
+    }
 
-            switch (opcao) {
-                case 1 -> {
-                    cadastrarUsuario(pessoas, scanner);
-                    salvarUsuarios(pessoas);
-                }
-                case 2 -> {
-                    Pessoa usuario = fazerLogin(pessoas, scanner);
-                    if (usuario != null) {
-                        if (usuario instanceof Artista) {
-                            menuArtista((Artista) usuario, musicas, scanner);
-                        } else if (usuario instanceof Produtor) {
-                            menuProdutor((Produtor) usuario, podcasts, scanner);
-                        } else if (usuario instanceof Ouvinte) {
-                            Ouvinte ouvinte = (Ouvinte) usuario;
-                            boolean executando = true;
-                            while (executando) {
-                                System.out.println("------------- MENU OUVINTE -------------");
-                                System.out.println("1. Ouvir música");
-                                System.out.println("2. Ouvir podcast");
-                                System.out.println("3. Visualizar histórico");
-                                System.out.println("4. Criar playlist");
-                                System.out.println("5. Adicionar música a uma playlist");
-                                System.out.println("6. Adicionar podcast a uma playlist");
-                                System.out.println("7. Sair");
-                                System.out.print("Escolha uma opção: ");
-                                
-                                int entrada = scanner.nextInt();
-                                scanner.nextLine();
-                
-                                switch (entrada) {
-                                    case 1 -> ouvinte.ouvirMusica(musicas, scanner);
-                                    case 2 -> ouvinte.ouvirPodcast(podcasts, scanner);
-                                    case 3 -> ouvinte.visualizarHistorico();
-                                    case 4 -> ouvinte.criarPlaylist(playlists, scanner);
-                                    case 5 -> ouvinte.adicionarMusicaPlaylist(playlists, musicas, scanner);
-                                    case 6 -> ouvinte.adicionarPodcastPlaylist(playlists, podcasts, scanner);
-                                    case 7 -> executando = false;
-                                    default -> System.out.println("Opção inválida! Tente novamente.");
-                                }
-                            }
-                        }
-                    }
-                }
-                case 3 -> {
-                    System.out.println("Saindo do programa...");
-                    scanner.close();
-                    salvarUsuarios(pessoas);
-                    salvarMusicas(musicas);
-                    salvarPodcasts(podcasts);
-                    salvarPlaylists(playlists);
-                    return;
-                }
-                default -> System.out.println("Opção inválida!");
-            }
-          }
-        }
     private static void menuArtista(Artista artista, List<Musica> musicas, Scanner scanner) {
         System.out.println("Bem-vindo(a), Artista " + artista.getNomeArtistico());
 
@@ -390,7 +334,7 @@ public class Main {
 
     private static void salvarHistorico(Ouvinte ouvinte) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_HISTORICO, true))) {
-            for (Audio audio : ouvinte.getHistoricoMusicas()) {
+            for (Audio audio : ouvinte.carregarHistorico()) {
                 writer.println(ouvinte.getCpf() + ";" + audio.getTitulo() + ";" + audio.getDuracao());
             }
         } catch (IOException e) {

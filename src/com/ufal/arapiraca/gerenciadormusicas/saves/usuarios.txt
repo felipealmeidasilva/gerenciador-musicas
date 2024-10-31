@@ -5,3 +5,5 @@ Ouvinte;felipe;20;136;br;22
 Nome de Exibição:felipe
 Ouvinte;jose;21;45;br;45
 Nome de Exibição:jose
+Produtor;maria;20;22;br;22
+Nome Profissional:maria
